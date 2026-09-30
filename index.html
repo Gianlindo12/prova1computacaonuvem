@@ -1,0 +1,52 @@
+ cat>index.html <<'EOF'
+> <!DOCTYPE html>
+> <html lang="pt-BR">
+> <head>
+> <meta charset="UTF-8">
+> <title>Treinamento</title>
+> </head>
+> <body>
+> <h1>Treinamento</title>
+> </head>
+> <body>
+> <h1>Treinamento ativo</h1>
+> </body>
+> <html>
+> EOF
+root@ubuntu:~$ docker run -d --name treinamento -p 8083:80 nginx:alpine
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+e2de96513ba9: Pull complete 
+d9aae54b5831: Pull complete 
+6c53d0b2a666: Pull complete 
+745dfb2690dd: Pull complete 
+9a9a644fdd6a: Pull complete 
+64c8194480fe: Pull complete 
+e76228b47809: Pull complete 
+e72112c14215: Pull complete 
+Digest: sha256:df221db836e1754089190208cee7eeda94f233197056426eda74a43ab1abeac2
+Status: Downloaded newer image for nginx:alpine
+aa1dd9a19f4331945dd83957ec99cee3290f32ebf05c18cefbccef836c50b9f6
+root@ubuntu:~$ docker cp index.html treinamento:/usr/share/nginx/html/index.html
+Successfully copied 2.05kB to treinamento:/usr/share/nginx/html/index.html
+root@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS          PORTS                                     NAMES
+aa1dd9a19f43   nginx:alpine   "/docker-entrypoint.…"   About a minute ago   Up 59 seconds   0.0.0.0:8083->80/tcp, [::]:8083->80/tcp   treinamento
+root@ubuntu:~$ curli http://localhost:8083
+Command 'curli' not found, did you mean:
+  command 'curl' from deb curl (8.5.0-2ubuntu10.10)
+Try: apt install <deb name>
+root@ubuntu:~$ curl http://localhost:8083
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Treinamento</title>
+</head>
+<body>
+<h1>Treinamento</title>
+</head>
+<body>
+<h1>Treinamento ativo</h1>
+</body>
+<html>
